@@ -1,66 +1,32 @@
 import React, { useState, useEffect } from "react";
-import { FormBody } from "../../molecules";
+import { FormBody } from "../../../molecules";
 import { TextInput } from "react-native-paper";
-import { TInput } from "../../atoms";
-import {
-  KeyboardAvoidingView,
-  StyleSheet,
-  View,
-  Keyboard,
-  TouchableWithoutFeedback,
-  ScrollView,
-  SafeAreaView,
-  Dimensions,
-  Button,
-} from "react-native";
+import { TInput } from "../../../atoms";
+import { DEVICE_HEIGHT } from "../../../../shared/Constants";
+import { KeyboardAvoidingView, ScrollView, SafeAreaView } from "react-native";
+import { useKeyboard } from "../../../../hooks";
 
 const MerchantSignupForm = () => {
   const [text, setText] = React.useState("");
   const [secureText, setSecureText] = React.useState(true);
-
-  const { height: windowHeight } = Dimensions.get("window");
-
-  const [keyboardHeight, setKeyboardHeight] = useState(0);
-
-  useEffect(() => {
-    const keyboardDidShowListener = Keyboard.addListener(
-      "keyboardDidShow",
-      (event) => {
-        // Get the height of the keyboard from the event
-        const keyboardHeight = event.endCoordinates.height;
-
-        // Calculate the height of the visible screen
-        const visibleHeight = windowHeight - keyboardHeight;
-
-        // Update the state with the keyboard height
-        setKeyboardHeight(keyboardHeight / 4);
-      }
-    );
-
-    const keyboardDidHideListener = Keyboard.addListener(
-      "keyboardDidHide",
-      () => {
-        // Reset the keyboard height when the keyboard is hidden
-        setKeyboardHeight(0);
-      }
-    );
-
-    // Remove the listeners when the component is unmounted
-    return () => {
-      keyboardDidShowListener.remove();
-      keyboardDidHideListener.remove();
-    };
-  }, []);
+  const { isKeyboardOpen } = useKeyboard();
+  const [btnDisable, setBtnDisable] = useState(false);
 
   return (
     <SafeAreaView>
       <KeyboardAvoidingView behavior="padding">
         <ScrollView
           keyboardShouldPersistTaps="always"
-          style={{ paddingBottom: 100 }}
-          contentInset={{ bottom: keyboardHeight }}
+          contentInset={{ bottom: isKeyboardOpen ? DEVICE_HEIGHT * 0.15 : 0 }}
         >
-          <FormBody>
+          <FormBody
+            title="Sign up to continue"
+            message=" Hello, I guess you are new around here. You can start using the
+          application after signing up"
+            onSubmit={() => console.log("submitted")}
+            submitBtnText={"Signup"}
+            submitBtnDisabled={btnDisable}
+          >
             <>
               <TInput
                 label="User Name"
@@ -113,19 +79,3 @@ const MerchantSignupForm = () => {
 };
 
 export { MerchantSignupForm };
-
-const styles = StyleSheet.create({
-  screenContainer: {
-    alignItems: "center",
-    alignSelf: "stretch",
-    flex: 1,
-    justifyContent: "center",
-  },
-  scroll: {
-    alignSelf: "stretch",
-  },
-  scrollContainer: {
-    alignSelf: "stretch",
-    flexGrow: 1,
-  },
-});

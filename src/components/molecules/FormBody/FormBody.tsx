@@ -1,28 +1,31 @@
 import React from "react";
-import {
-  View,
-  ScrollView,
-  KeyboardAvoidingView,
-  StyleSheet,
-} from "react-native";
+import { View } from "react-native";
 import { Text } from "react-native-paper";
 import { PrimaryButton } from "../../atoms";
 import { IFormBody } from "./FormBody.interface";
 import FormBodyStyles from "./FormBody.style";
-const FormBody = ({ children }: IFormBody) => {
+const FormBody = ({
+  children,
+  title,
+  message,
+  onSubmit,
+  submitBtnText,
+  submitBtnDisabled,
+}: IFormBody) => {
   return (
     <>
       <View>
         <Text variant="titleMedium" style={{ fontWeight: "bold" }}>
-          Sign up to continue
+          {title}
         </Text>
         <Text variant="titleSmall" style={{ fontWeight: "300" }}>
-          Hello, I guess you are new around here. You can start using the
-          application after signing up
+          {message}
         </Text>
       </View>
       <View style={FormBodyStyles.textBoxesContainer}>{children}</View>
-      <PrimaryButton>{"Hello Login"}</PrimaryButton>
+      <PrimaryButton onPress={onSubmit} disabled={submitBtnDisabled}>
+        {submitBtnText}
+      </PrimaryButton>
     </>
   );
 };
