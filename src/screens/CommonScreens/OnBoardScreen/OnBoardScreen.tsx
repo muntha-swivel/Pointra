@@ -1,5 +1,5 @@
 import React from "react";
-import { OnBoardScreenTemplate } from "../../components/templates";
+import { OnBoardScreenTemplate } from "../../../components/templates";
 const OnBoardScreen = ({ navigation }: any) => {
   return (
     <>
