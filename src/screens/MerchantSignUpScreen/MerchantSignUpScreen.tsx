@@ -1,5 +1,5 @@
 import React from "react";
-import { FormBodyScreenTemplate } from "../../../components/templates";
+import { FormBodyScreenTemplate } from "../../components/templates";
 
 const MerchantSignupScreen = () => {
   return <FormBodyScreenTemplate />;
